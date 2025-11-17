@@ -13,4 +13,5 @@ A comprehensive automation system for deploying multiple applications using Kube
 📁 Project Structure
 
 <img width="324" height="452" alt="struc_1" src="https://github.com/user-attachments/assets/b764d1dc-193f-40fd-ac7e-4b932705dc3d" />
+
 <img width="324" height="422" alt="struc_2" src="https://github.com/user-attachments/assets/2846f8f1-f58e-4a69-853a-51f3c9ad7fd0" />
