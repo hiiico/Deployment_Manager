@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app
+  labels:
+    app: node-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-app
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+      - name: node-app
+        image: hiiico/node-app:latest
+        ports:
+        - containerPort: 8080
+        env:
+        - name: NODE_ENV
+          value: "production"
+        # Add build-specific environment variables
+        - name: BROWSERIFY_HMR
+          value: "true"
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "300m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+        # Custom startup probe to wait for build completion
+        startupProbe:
+          httpGet:
+            path: /
+            port: 8080
+          failureThreshold: 30  # Wait up to 30 * 10 = 300 seconds
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 60  # Wait for build to complete
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          initialDelaySeconds: 60  # Wait for build to complete
+          periodSeconds: 5
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-app-service
+spec:
+  selector:
+    app: node-app
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+  type: ClusterIP

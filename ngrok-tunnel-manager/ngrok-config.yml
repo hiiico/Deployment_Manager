@@ -1,0 +1,9 @@
+version: "2"
+authtoken: 33rnAF5EzKQP2DC3oy5KNdqTZdg_4NDr47shDRRpsjaNLD4nU
+tunnels:
+  kubernetes-ingress:
+    proto: http
+    addr: 8080
+    bind_tls: true
+    host_header: "localhost"
+    metadata: "Vue.js App via Kubernetes"
